@@ -1,5 +1,8 @@
-
+import {useRouter} from 'next/router';
 const Details = ({ninja}) => {
+  const router = useRouter()
+  const {id} = router.query
+
     return (
       <div>
         <h1>{ninja.name}</h1>
@@ -13,22 +16,22 @@ const Details = ({ninja}) => {
    
   export default Details;
 
-  export const getStaticPaths = async () =>{
-    const res = await fetch("https://jsonplaceholder.typicode.com/users")
-    const data = await res.json();
+  // export const getStaticPaths = async () =>{
+  //   const res = await fetch("https://jsonplaceholder.typicode.com/users")
+  //   const data = await res.json();
 
-    const paths = data.map(ninja =>{
-      return {
-        params :{ id : ninja.id.toString()}
-      }
-    })
-    return {
-      paths: paths,
-      fallback:false
-    }
-  }
+  //   const paths = data.map(ninja =>{
+  //     return {
+  //       params :{ id : ninja.id.toString()}
+  //     }
+  //   })
+  //   return {
+  //     paths: paths,
+  //     fallback:false
+  //   }
+  // }
 
-  export const getStaticProps = async (context) =>{
+  export const getServerSideProps = async (context) =>{
     const id = context.params.id;
     const res =  await fetch("https://jsonplaceholder.typicode.com/users/"+id)
     const data = await res.json();
